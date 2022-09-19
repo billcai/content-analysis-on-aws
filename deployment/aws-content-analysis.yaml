@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: "(SO0042) - aws-content-analysis %%VERSION%%. This is the base AWS CloudFormation template that provisions resources for the AWS Content Analysis solution."
+Description: "(SO0042) - aws-content-analysis v2.0.0. This is the base AWS CloudFormation template that provisions resources for the AWS Content Analysis solution."
 
 Parameters:
   AdminEmail:
@@ -27,11 +27,11 @@ Mappings:
       Version: "v5.0.0"
   Application:
     SourceCode:
-      GlobalS3Bucket: "%%GLOBAL_BUCKET_NAME%%"
-      TemplateKeyPrefix: "aws-content-analysis/%%VERSION%%"
-      RegionalS3Bucket: "%%REGIONAL_BUCKET_NAME%%"
-      CodeKeyPrefix: "aws-content-analysis/%%VERSION%%"
-      Version: "%%VERSION%%"
+      GlobalS3Bucket: rodeolabz-us-east-1
+      TemplateKeyPrefix: aws-content-analysis/v2.0.0
+      RegionalS3Bucket: rodeolabz
+      CodeKeyPrefix: aws-content-analysis/v2.0.0
+      Version: v2.0.0
   AnonymousData:
     SendAnonymousData:
       Data: true
@@ -57,7 +57,7 @@ Resources:
         EnableXrayTrace: true
         SendAnonymousData: !FindInMap [AnonymousData,SendAnonymousData,Data]
         SolutionId: SO0042
-        SolutionVersion: "%%VERSION%%"
+        SolutionVersion: v2.0.0
 
   # Deploy Opensearch
 
@@ -113,19 +113,7 @@ Resources:
   WebStack:
     Type: "AWS::CloudFormation::Stack"
     Properties:
-      TemplateURL: !Join
-        - ""
-        - - "https://"
-          - !FindInMap
-            - Application
-            - SourceCode
-            - GlobalS3Bucket
-          - ".s3.amazonaws.com/"
-          - !FindInMap
-            - Application
-            - SourceCode
-            - TemplateKeyPrefix
-          - "/aws-content-analysis-web.template"
+      TemplateURL: "https://content-analysis-template-billcai.s3.amazonaws.com/aws-content-analysis-web.template"
       Parameters:
         DataplaneEndpoint: !GetAtt MieStack.Outputs.DataplaneApiEndpoint
         WorkflowEndpoint: !GetAtt MieStack.Outputs.WorkflowApiEndpoint

@@ -20,9 +20,9 @@ Parameters:
 Mappings:
   SourceCode:
     General:
-      RegionalS3Bucket: "%%REGIONAL_BUCKET_NAME%%"
-      CodeKeyPrefix: "aws-content-analysis/%%VERSION%%"
-      WebsitePrefix: "aws-content-analysis/%%VERSION%%/website"
+      RegionalS3Bucket: "rodeolabz"
+      CodeKeyPrefix: "aws-content-analysis/v2.0.0"
+      WebsitePrefix: "aws-content-analysis/v2.0.0/website"
 
 Resources:
   # Web application resources
@@ -290,7 +290,7 @@ Resources:
       Handler: website_helper.lambda_handler
       MemorySize: 256
       Role: !GetAtt WebsiteHelperRole.Arn
-      Runtime: python3.6
+      Runtime: python3.8
       Timeout: 900
       Environment:
         Variables:
